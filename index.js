@@ -23,3 +23,20 @@ const Port = process.env.PORT || 5500
 const server = app.listen(Port, () => {
     console.log(`Listening on port ${server.address().port}`);
 })
+
+app.all("*", (req, res, next) => {
+    const err = new Error(`Can not find ${req.originalUrl} on this server!`);
+    err.status = "fail";
+    err.statusCode = 404;
+    next(err)
+});
+
+//Error detect middleware
+app.use((err, req, res, next) => {
+    err.statusCode = err.statusCode || 500;
+    err.status = err.status || "Error"
+    res.status(err.statusCode).json({
+        status: err.status,
+        message: err.message
+    })
+});

@@ -21,19 +21,19 @@ class APIFeatures {
         }
         return this;
     }
-    limitFields(){
-        if(this.queryString.fields){
-            const allFields =  this.queryString.fields.split(',').join(' ');
+    limitFields() {
+        if (this.queryString.fields) {
+            const allFields = this.queryString.fields.split(',').join(' ');
             this.query = this.query.select(allFields);
-        }else{
+        } else {
             this.query = this.query.select('-__v');
         }
         return this;
     }
-    paginate(){
+    paginate() {
         const page = req.query.page * 1 || 1
         const limit = req.query.limit * 1 || 10
-        const skip =  (page - 1) * limit;
+        const skip = (page - 1) * limit;
         this.query = this.query.skip(skip).limit(limit);
         return this;
     }
